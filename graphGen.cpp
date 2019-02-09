@@ -1,41 +1,41 @@
 /*************************************************************************
-                           ${file_base}  -  description
+                           graphGen  -  description
                              -------------------
-    début                : ${date}
+    dï¿½but                : ${date}
     copyright            : (C) ${year} par ${user}
 *************************************************************************/
 
-//---------- Réalisation de la classe <${file_base}> (fichier ${file_name}) --
+//---------- Rï¿½alisation de la classe <graphGen> (fichier graphGen.h) --
 
 //---------------------------------------------------------------- INCLUDE
 
-//-------------------------------------------------------- Include système
+//-------------------------------------------------------- Include systï¿½me
 using namespace std;
 #include <iostream>
 
 //------------------------------------------------------ Include personnel
-#include "${file_base}.h"
+#include "graphGen.h"
 
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
 
-//----------------------------------------------------------- Types privés
+//----------------------------------------------------------- Types privï¿½s
 
 
 //----------------------------------------------------------------- PUBLIC
 //-------------------------------------------------------- Fonctions amies
 
-//----------------------------------------------------- Méthodes publiques
-// type ${file_base}::Méthode ( liste de paramètres )
+//----------------------------------------------------- Mï¿½thodes publiques
+// type graphGen::Mï¿½thode ( liste de paramï¿½tres )
 // Algorithme :
 //
 //{
-//} //----- Fin de Méthode
+//} //----- Fin de Mï¿½thode
 
 
-//------------------------------------------------- Surcharge d'opérateurs
-${file_base} & ${file_base}::operator = ( const ${file_base} & un${file_base} )
+//------------------------------------------------- Surcharge d'opï¿½rateurs
+graphGen & graphGen::operator = ( const graphGen & ungraphGen )
 // Algorithme :
 //
 {
@@ -43,38 +43,38 @@ ${file_base} & ${file_base}::operator = ( const ${file_base} & un${file_base} )
 
 
 //-------------------------------------------- Constructeurs - destructeur
-${file_base}::${file_base} ( const ${file_base} & un${file_base} )
+graphGen::graphGen ( const graphGen & ungraphGen )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de copie de <${file_base}>" << endl;
+    cout << "Appel au constructeur de copie de <graphGen>" << endl;
 #endif
-} //----- Fin de ${file_base} (constructeur de copie)
+} //----- Fin de graphGen (constructeur de copie)
 
 
-${file_base}::${file_base} ( )
+graphGen::graphGen ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <${file_base}>" << endl;
+    cout << "Appel au constructeur de <graphGen>" << endl;
 #endif
-} //----- Fin de ${file_base}
+} //----- Fin de graphGen
 
 
-${file_base}::~${file_base} ( )
+graphGen::~graphGen ( )
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au destructeur de <${file_base}>" << endl;
+    cout << "Appel au destructeur de <graphGen>" << endl;
 #endif
-} //----- Fin de ~${file_base}
+} //----- Fin de ~graphGen
 
 
 //------------------------------------------------------------------ PRIVE
 
-//----------------------------------------------------- Méthodes protégées
+//----------------------------------------------------- Mï¿½thodes protï¿½gï¿½es
 
-//------------------------------------------------------- Méthodes privées
+//------------------------------------------------------- Mï¿½thodes privï¿½es
