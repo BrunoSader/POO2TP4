@@ -69,9 +69,9 @@ top10::top10 (const reader & r, int heure, string extension)
 #ifdef MAP
 	cout << "Appel au constructeur de <top10>" << endl;
 #endif
-	
+
 	unordered_map<string,int> map;
-	
+
 	if (heure<24 && extension == "null")
 	{
 		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
@@ -128,26 +128,21 @@ top10::top10 (const reader & r, int heure, string extension)
 		}
 	}else
 	{
-		unordered_map<string,int> map;
-		
-		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it){
-			
+		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
 			if(ret.second==false)
 			{
 				ret.first->second+=1;
-				
-				
 			}
 		}
 		for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
 		{
-			
 			top.insert(make_pair(it->second,it->first));
 		}
 	}
-	
+
 } //----- Fin de top10
 
 

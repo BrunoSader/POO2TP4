@@ -53,7 +53,7 @@ public:
     // Contrat :
     //
 
-    graphGen ( );
+    graphGen (const reader & readFile);
     // Mode d'emploi :
     //
     // Contrat :
@@ -78,7 +78,7 @@ protected:
 
 private:
 //------------------------------------------------------- Attributs priv�s
-
+unordered_map<string[2],int> graphMap;
 //---------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------- Classes priv�es
