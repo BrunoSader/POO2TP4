@@ -60,24 +60,6 @@ graphGen::graphGen (const reader & readFile)
 #ifdef MAP
     cout << "Appel au constructeur de <graphGen>" << endl;
 #endif
-
-for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
-{
-	pair<unordered_map<string[2],int>::iterator,bool> ret;
-	ret = map.insert(make_pair(it->lien,1));
-	if(stoi(it->date.heure)>=heure && stoi(it->date.heure)<(heure+1) )
-	{
-		if(ret.second==false)
-		{
-			ret.first->second+=1;
-		}
-	}
-}
-for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
-{
-	top.insert(make_pair(it->second,it->first));
-}
-
 } //----- Fin de graphGen
 
 

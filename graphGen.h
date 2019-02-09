@@ -78,7 +78,7 @@ protected:
 
 private:
 //------------------------------------------------------- Attributs priv�s
-unordered_map<string[2],int> graphMap;
+unordered_map<string,int> graphMap;
 //---------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------- Classes priv�es
