@@ -3,3 +3,4 @@
 analog
 test.cpp
 *.o
+*.log
