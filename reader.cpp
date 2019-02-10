@@ -87,6 +87,7 @@ reader::reader (string fileName)
 	ifstream myfile;
 	myfile.open(fileName.c_str());
 	string buffer;
+    size_t found;
 	if(myfile.is_open())
 	{
 		int i = 0;
@@ -96,6 +97,10 @@ reader::reader (string fileName)
             logApache logBuffer;
 			
 			getline(myfile,logBuffer.ip,' ');
+            if(myfile.eof())
+            {
+                break;
+            }   
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -109,18 +114,53 @@ reader::reader (string fileName)
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.requete,' ');
 			getline(myfile,logBuffer.lien,' ');
+            found = logBuffer.lien.find(";jsessionid=");
+            if(found!=std::string::npos)
+            {
+                logBuffer.lien=logBuffer.lien.substr(0,found);
+            }
+            found = logBuffer.lien.find("?ticket=");
+            if(found!=std::string::npos)
+            {
+                logBuffer.lien=logBuffer.lien.substr(0,found);
+            }
+            found = logBuffer.lien.find("?id=");
+            if(found!=std::string::npos)
+            {
+                logBuffer.lien=logBuffer.lien.substr(0,found);
+            }
+            found = logBuffer.lien.find("?media=");
+            if(found!=std::string::npos)
+            {
+                logBuffer.lien=logBuffer.lien.substr(0,found);
+            }
 			getline(myfile,logBuffer.protocole,'"');
             getline(myfile,buffer,' ');
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.lienReferer,'"');
+            if(logBuffer.lienReferer.find("google")!=std::string::npos)
+            {
+                logBuffer.lienReferer="google";
+            }else if(logBuffer.lienReferer.at(0)!= '/')
+            {
+                buffer=logBuffer.lienReferer;
+                found = buffer.find("//");
+                if(found!=std::string::npos)
+                {
+                    buffer=buffer.substr(found+2);
+                    
+                }
+                found = buffer.find("/");
+                if(found!=std::string::npos)
+                {
+                    logBuffer.lienReferer=buffer.substr(found);   
+                }
+            }
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.navClient,'"');
-            if(myfile.eof())
-            {
-                break;
-            }
+            
             log.push_front(logBuffer);
 			++i;
 		}while(getline(myfile,buffer));

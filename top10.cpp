@@ -29,11 +29,17 @@ ostream & operator << (ostream & out, const top10 & t)
 {
     int j =0;
     cout<<"top 10 of the most visited links: "<<endl;
-    for(multimap<int, string >::const_reverse_iterator it = t.top.rbegin(); it != t.top.rend() && j<10; ++it)
+    for(multimap<int, string >::const_reverse_iterator it = t.top.crbegin(); it != t.top.crend() && j<10; ++it)
         {
             cout<<"\turl = "<<it->second<<" | number of hits = "<<it->first<<endl;
             j++;
         }
+    
+   /* for(multimap<int, string >::const_iterator it = t.top.cbegin(); it != t.top.cend() && j<1000; ++it)
+    {
+        cout<<"\turl = "<<it->second<<" | number of hits = "<<it->first<<endl;
+        j++;
+    }*/
     return out;
 }
 //----------------------------------------------------- Méthodes publiques
@@ -74,7 +80,7 @@ top10::top10 (const reader & r, int heure, string extension)
 
 	if (heure<24 && extension == "null")
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
@@ -86,13 +92,13 @@ top10::top10 (const reader & r, int heure, string extension)
 				}
 			}
 		}
-		for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
+		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
 		{
 			top.insert(make_pair(it->second,it->first));
 		}
 	}else if(heure==24 && extension=="e")
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
@@ -104,13 +110,13 @@ top10::top10 (const reader & r, int heure, string extension)
 				}
 			}
 		}
-		for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
+		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
 		{
 			top.insert(make_pair(it->second,it->first));
 		}
 	}else if (heure<24 && extension == "e")
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
@@ -122,13 +128,13 @@ top10::top10 (const reader & r, int heure, string extension)
 				}
 			}
 		}
-		for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
+		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
 		{
 			top.insert(make_pair(it->second,it->first));
 		}
 	}else
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
@@ -137,7 +143,7 @@ top10::top10 (const reader & r, int heure, string extension)
 				ret.first->second+=1;
 			}
 		}
-		for(unordered_map<string, int >::const_iterator it = map.begin(); it != map.end(); ++it)
+		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
 		{
 			top.insert(make_pair(it->second,it->first));
 		}

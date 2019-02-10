@@ -32,11 +32,11 @@ int main(int argc, char **argv){
                     cerr<<"the hour should be a number between 0 and 23"<<endl;
                     erreur=true;
                     break;
-								}else
-								{
-                option+=1;
-                break;
-								}
+                }else
+                {
+                    option+=1;
+                    break;
+                }
             case 'e':
                 cout << "e is enabled" <<endl;
                 option+=10;
@@ -69,10 +69,13 @@ int main(int argc, char **argv){
 				top10 t = top10(r);
 				cout << t;
 			}
+			if(faireGraph)
+            {
+                cout<<"momo";
+                graphGen g =graphGen(r,nomFichierGraph);
+                //cout<<g;
+            }
     }
-		if(faireGraph)
-		{
-			graphGen(reader(nom));
-		}
+		
     return 0;
 }

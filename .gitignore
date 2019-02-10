@@ -4,3 +4,7 @@ analog
 test.cpp
 *.o
 *.log
+*.png
+*.svg
+*.dot
+-t
