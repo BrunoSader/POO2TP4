@@ -13,12 +13,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include<forward_list>  
+#include<forward_list>
 using namespace std;
-//------------------------------------------------------------- Constantes 
+//------------------------------------------------------------- Constantes
 
-//------------------------------------------------------------------ Types 
-typedef struct 
+//------------------------------------------------------------------ Types
+typedef struct
 {
 string jour;
 string mois;
@@ -29,7 +29,7 @@ string seconde;
 string decalageGMT;
 }uneDate;
 
-typedef struct 
+typedef struct
 {
 string ip;
 string userLogName;
@@ -41,29 +41,30 @@ string protocole;
 string status;
 string transQT;
 string lienReferer;
-string navClient; 
+string navClient;
 }logApache;
-//------------------------------------------------------------------------ 
+//------------------------------------------------------------------------
 // Rôle de la classe <reader>
 //
 //
-//------------------------------------------------------------------------ 
+//------------------------------------------------------------------------
 
-class reader 
+class reader
 {
 //----------------------------------------------------------------- PUBLIC
 
 public:
     friend ostream & operator << (ostream & out, const reader & r);
     friend class top10;
+		friend class graphGen;
 //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste de paramètres );
     // Mode d'emploi :
     //
     // Contrat :
     //
-    
-    
+
+
 
 
 //------------------------------------------------- Surcharge d'opérateurs
@@ -93,7 +94,7 @@ public:
     // Contrat :
     //
 
-//------------------------------------------------------------------ PRIVE 
+//------------------------------------------------------------------ PRIVE
 
 protected:
 //----------------------------------------------------- Méthodes protégées
@@ -103,7 +104,7 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs protégés
-forward_list<logApache> log; 
+forward_list<logApache> log;
 private:
 //------------------------------------------------------- Attributs privés
 
