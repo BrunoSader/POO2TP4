@@ -33,15 +33,6 @@ using namespace std;
 //{
 //} //----- Fin de M�thode
 
-
-//------------------------------------------------- Surcharge d'op�rateurs
-graphGen & graphGen::operator = ( const graphGen & ungraphGen )
-// Algorithme :
-//
-{
-} //----- Fin de operator =
-
-
 //-------------------------------------------- Constructeurs - destructeur
 graphGen::graphGen ( const graphGen & ungraphGen )
 // Algorithme :
@@ -53,13 +44,22 @@ graphGen::graphGen ( const graphGen & ungraphGen )
 } //----- Fin de graphGen (constructeur de copie)
 
 
-graphGen::graphGen (const reader & readFile)
+graphGen::graphGen (const reader & r)
 // Algorithme :
 //
 {
 #ifdef MAP
-    cout << "Appel au constructeur de <graphGen>" << endl;
+  cout << "Appel au constructeur de <graphGen>" << endl;
 #endif
+	for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
+	{
+		pair<unordered_map<Links<string,string>, int, hash_fn> ::iterator,bool> ret;
+		ret = graphMap.insert(make_pair(Links<string,string>(it->lien,it->lienReferer),1));
+		if(ret.second==false)
+		{
+			ret.first->second+=1;
+		}
+	}
 } //----- Fin de graphGen
 
 

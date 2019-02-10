@@ -12,7 +12,6 @@
 //--------------------------------------------------- Interfaces utilis�es
 #include <iostream>
 #include <unordered_map>
-#include <map>
 #include "reader.h"
 using namespace std;
 //------------------------------------------------------------- Constantes
@@ -24,6 +23,41 @@ using namespace std;
 //
 //
 //------------------------------------------------------------------------
+#include <iostream>
+#include <unordered_map>
+
+template<typename T1, typename T2>
+struct Links
+{
+	T1 lien;
+	T2 referer;
+
+	// constructor
+	Links(T1 lien, T2 referer)
+	{
+		this->lien = lien;
+		this->referer = referer;
+	}
+
+	// operator== is required to compare keys in case of hash collision
+	bool operator==(const Links &link) const
+	{
+		return lien == link.lien && referer == link.referer;
+	}
+};
+
+// specialized hash function for unordered_map keys
+struct hash_fn
+{
+	template <class T1, class T2>
+	std::size_t operator() (const Links<T1, T2> &link) const
+	{
+		std::size_t h1 = std::hash<T1>()(link.lien);
+		std::size_t h2 = std::hash<T2>()(link.referer);
+
+		return (h1 + h2);
+	}
+};
 
 class graphGen
 {
@@ -75,10 +109,10 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs prot�g�s
-
+unordered_map<Links<string,string>, int, hash_fn> graphMap;
 private:
 //------------------------------------------------------- Attributs priv�s
-unordered_map<string,int> graphMap;
+
 //---------------------------------------------------------- Classes amies
 
 //-------------------------------------------------------- Classes priv�es

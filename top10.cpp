@@ -78,7 +78,7 @@ top10::top10 (const reader & r, int heure, string extension)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
-			if(stoi(it->date.heure)>=heure && stoi(it->date.heure)<(heure+1) )
+			if(stoi(it->date.heure)==heure)
 			{
 				if(ret.second==false)
 				{
@@ -114,7 +114,7 @@ top10::top10 (const reader & r, int heure, string extension)
 		{
 			pair<unordered_map<string,int>::iterator,bool> ret;
 			ret = map.insert(make_pair(it->lien,1));
-			if(it->lien.find("html") != string::npos && stoi(it->date.heure)>=heure && stoi(it->date.heure)<(heure+1))
+			if(it->lien.find("html") != string::npos && stoi(it->date.heure)==heure)
 			{
 				if(ret.second==false)
 				{

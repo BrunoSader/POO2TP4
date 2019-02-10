@@ -11,16 +11,17 @@
 #define main_H
 
 // Rôle du module <main>
-// Représente seulement la classe permettant d'appeler l'interface 
-// créée dans la classe Interface afin d'afficher un visuel pour l'utilisateur 
+// Représente seulement la classe permettant d'appeler l'interface
+// créée dans la classe Interface afin d'afficher un visuel pour l'utilisateur
 
-//--------------------------------------------------- Interfaces utilisées  
+//--------------------------------------------------- Interfaces utilisées
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include "reader.h"
 #include "top10.h"
+#include "graphGen.h"
 #include <getopt.h>
 
 class Main
@@ -29,5 +30,3 @@ class Main
 
 };
 #endif // Main_H
-
-

@@ -70,5 +70,9 @@ int main(int argc, char **argv){
 				cout << t;
 			}
     }
+		if(faireGraph)
+		{
+			graphGen(reader(nom));
+		}
     return 0;
 }
