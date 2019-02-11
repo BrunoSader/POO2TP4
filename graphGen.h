@@ -65,7 +65,6 @@ class graphGen
 
 public:
     friend ostream & operator << (ostream & out, const graphGen & g);
-    friend ofstream & operator << (ofstream & fichier, unordered_map<Links<string,string>, int, hash_fn> ::const_iterator it);
 //----------------------------------------------------- M�thodes publiques
     // type M�thode ( liste de param�tres );
     // Mode d'emploi :

@@ -34,12 +34,6 @@ ostream & operator << (ostream & out, const top10 & t)
             cout<<"\turl = "<<it->second<<" | number of hits = "<<it->first<<endl;
             j++;
         }
-    
-   /* for(multimap<int, string >::const_iterator it = t.top.cbegin(); it != t.top.cend() && j<1000; ++it)
-    {
-        cout<<"\turl = "<<it->second<<" | number of hits = "<<it->first<<endl;
-        j++;
-    }*/
     return out;
 }
 //----------------------------------------------------- Méthodes publiques

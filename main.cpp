@@ -1,4 +1,5 @@
 #include "main.h"
+
 int main(int argc, char **argv){
 
     int opt;
@@ -11,7 +12,7 @@ int main(int argc, char **argv){
     string nomFichierGraph;
     while ((opt = getopt(argc,argv,"g:et:")) != EOF)
         switch(opt)
-        {
+        { 
             case 'g':
                 ss<<optarg;
                 ss>>nomFichierGraph;
@@ -73,9 +74,8 @@ int main(int argc, char **argv){
             {
                 cout<<"momo";
                 graphGen g =graphGen(r,nomFichierGraph);
-                //cout<<g;
             }
     }
-		
+
     return 0;
 }

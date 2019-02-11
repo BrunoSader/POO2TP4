@@ -34,10 +34,6 @@ ostream & operator << (ostream & out, const graphGen & g)
    return out;
 }
 
-ofstream & operator << (ofstream & fichier, unordered_map<Links<string,string>, int, hash_fn> ::const_iterator it)
-{
-    return fichier;   
-}
 //----------------------------------------------------- M�thodes publiques
 // type graphGen::M�thode ( liste de param�tres )
 // Algorithme :
@@ -64,7 +60,7 @@ graphGen::graphGen (const reader & r, string nomFichier)
   cout << "Appel au constructeur de <graphGen>" << endl;
 #endif
     int i=0;
-    
+
 	for(forward_list<logApache>::const_iterator it = r.log.begin(); it != r.log.end(); ++it)
 	{
 		pair<unordered_map<Links<string,string>, int, hash_fn> ::iterator,bool> ret;
@@ -73,7 +69,7 @@ graphGen::graphGen (const reader & r, string nomFichier)
 		{
 			ret.first->second+=1;
 		}
-		
+
 		pair<unordered_map<string,int>::iterator,bool> ret2;
         ret2 = nodeMap.insert(make_pair(it->lien,i));
         if(ret2.second==true)
@@ -86,12 +82,12 @@ graphGen::graphGen (const reader & r, string nomFichier)
             i++;
         }
 	}
-	
-	
+
+
 	ofstream fichierDot;
 	fichierDot.open(nomFichier);
     fichierDot<<"digraph {"<<endl;
-    
+
     for(unordered_map<string, int >::const_iterator it = nodeMap.cbegin(); it != nodeMap.cend(); ++it)
     {
         fichierDot<<"node"<<it->second<<" [label=\""<<it->first<<"\"];"<<endl;
