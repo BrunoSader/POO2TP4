@@ -50,11 +50,10 @@ struct Links
 struct hash_fn
 {
 	template <class T1, class T2>
-	std::size_t operator() (const Links<T1, T2> &link) const
+	size_t operator() (const Links<T1, T2> &link) const
 	{
-		std::size_t h1 = std::hash<T1>()(link.lien);
-		std::size_t h2 = std::hash<T2>()(link.referer);
-
+		size_t h1 = hash<T1>()(link.lien);
+		size_t h2 = hash<T2>()(link.referer);
 		return (h1 + h2);
 	}
 };
