@@ -29,31 +29,14 @@ class top10
 //----------------------------------------------------------------- PUBLIC
 
 public:
-    friend ostream & operator << (ostream & out, const top10 & t);
-//----------------------------------------------------- Méthodes publiques
-    // type Méthode ( liste de paramètres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
+//----------------------------------------------------- Méthodes publiques
 
 //------------------------------------------------- Surcharge d'opérateurs
-    top10 & operator = ( const top10 & untop10 );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+    friend ostream & operator << (ostream & out, const top10 & t);
 
 //-------------------------------------------- Constructeurs - destructeur
-    top10 ( const top10 & untop10 );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
-	top10 (const reader & r, int heure = 24, string extension = "null");
+	top10 (const reader & r);
 	// Mode d'emploi :
 	//
 	// Contrat :
