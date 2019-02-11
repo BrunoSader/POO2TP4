@@ -35,22 +35,8 @@ ostream & operator << (ostream & out, const graphGen & g)
 }
 
 //----------------------------------------------------- M�thodes publiques
-// type graphGen::M�thode ( liste de param�tres )
-// Algorithme :
-//
-//{
-//} //----- Fin de M�thode
 
 //-------------------------------------------- Constructeurs - destructeur
-graphGen::graphGen ( const graphGen & ungraphGen )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <graphGen>" << endl;
-#endif
-} //----- Fin de graphGen (constructeur de copie)
-
 
 graphGen::graphGen (const reader & r, string nomFichier)
 // Algorithme :

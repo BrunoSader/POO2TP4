@@ -13,20 +13,21 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include<forward_list>
+#include <forward_list>
+#include <regex>
 using namespace std;
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
 typedef struct
 {
-string jour;
-string mois;
-string annee;
-string heure;
-string minute;
-string seconde;
-string decalageGMT;
+	string jour;
+	string mois;
+	string annee;
+	string heure;
+	string minute;
+	string seconde;
+	string decalageGMT;
 }uneDate;
 
 typedef struct
@@ -54,9 +55,8 @@ class reader
 //----------------------------------------------------------------- PUBLIC
 
 public:
-    friend ostream & operator << (ostream & out, const reader & r);
-    friend class top10;
-		friend class graphGen;
+friend class top10;
+friend class graphGen;
 //----------------------------------------------------- Méthodes publiques
     // type Méthode ( liste de paramètres );
     // Mode d'emploi :
@@ -68,26 +68,19 @@ public:
 
 
 //------------------------------------------------- Surcharge d'opérateurs
-    reader & operator = ( const reader & unreader );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+	friend ostream & operator << (ostream & out, const reader & r);
 
 //-------------------------------------------- Constructeurs - destructeur
-    reader ( const reader & unreader );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
-
+	
     reader (string fileName);
     // Mode d'emploi :
     //
     // Contrat :
     //
-
+reader (string fileName,bool traitement);
+reader(string nameFile, int heure, bool extension,bool traitement);
+reader(string fileName, int heure,bool traitement);
+reader(string fileName,bool extension,bool traitement);
     virtual ~reader ( );
     // Mode d'emploi :
     //
@@ -105,6 +98,7 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 forward_list<logApache> log;
+bool erreurFlag = true;
 private:
 //------------------------------------------------------- Attributs privés
 

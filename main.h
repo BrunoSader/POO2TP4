@@ -19,6 +19,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <regex>
 #include "reader.h"
 #include "top10.h"
 #include "graphGen.h"

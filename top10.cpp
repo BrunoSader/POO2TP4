@@ -37,32 +37,12 @@ ostream & operator << (ostream & out, const top10 & t)
     return out;
 }
 //----------------------------------------------------- Méthodes publiques
-// type top10::Méthode ( liste de paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
 
 //------------------------------------------------- Surcharge d'opérateurs
-/*top10 & top10::operator = ( const top10 & untop10 )
-// Algorithme :
-//
-{
-} //----- Fin de operator =
-*/
 
 //-------------------------------------------- Constructeurs - destructeur
-top10::top10 ( const top10 & untop10 )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <top10>" << endl;
-#endif
-} //----- Fin de top10 (constructeur de copie)
 
-top10::top10 (const reader & r, int heure, string extension)
+top10::top10 (const reader & r)
 // Algorithme :
 //
 {
@@ -71,76 +51,23 @@ top10::top10 (const reader & r, int heure, string extension)
 #endif
 
 	unordered_map<string,int> map;
+	pair<unordered_map<string,int>::iterator,bool> ret;
 
-	if (heure<24 && extension == "null")
+
+	for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
+		ret = map.insert(make_pair(it->lien,1));
+		if(ret.second==false)
 		{
-			pair<unordered_map<string,int>::iterator,bool> ret;
-			ret = map.insert(make_pair(it->lien,1));
-			if(stoi(it->date.heure)==heure)
-			{
-				if(ret.second==false)
-				{
-					ret.first->second+=1;
-				}
-			}
+			ret.first->second+=1;
 		}
-		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
-		{
-			top.insert(make_pair(it->second,it->first));
-		}
-	}else if(heure==24 && extension=="e")
+	}
+		
+	
+
+	for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
 	{
-		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
-		{
-			pair<unordered_map<string,int>::iterator,bool> ret;
-			ret = map.insert(make_pair(it->lien,1));
-			if(it->lien.find("html") != string::npos)
-			{
-				if(ret.second==false)
-				{
-					ret.first->second+=1;
-				}
-			}
-		}
-		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
-		{
-			top.insert(make_pair(it->second,it->first));
-		}
-	}else if (heure<24 && extension == "e")
-	{
-		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
-		{
-			pair<unordered_map<string,int>::iterator,bool> ret;
-			ret = map.insert(make_pair(it->lien,1));
-			if(it->lien.find("html") != string::npos && stoi(it->date.heure)==heure)
-			{
-				if(ret.second==false)
-				{
-					ret.first->second+=1;
-				}
-			}
-		}
-		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
-		{
-			top.insert(make_pair(it->second,it->first));
-		}
-	}else
-	{
-		for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
-		{
-			pair<unordered_map<string,int>::iterator,bool> ret;
-			ret = map.insert(make_pair(it->lien,1));
-			if(ret.second==false)
-			{
-				ret.first->second+=1;
-			}
-		}
-		for(unordered_map<string, int >::const_iterator it = map.cbegin(); it != map.cend(); ++it)
-		{
-			top.insert(make_pair(it->second,it->first));
-		}
+		top.insert(make_pair(it->second,it->first));
 	}
 
 } //----- Fin de top10

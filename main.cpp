@@ -1,15 +1,17 @@
 #include "main.h"
 
 int main(int argc, char **argv){
-
+	
     int opt;
     int option=0;
+	
     extern char * optarg;
     bool erreur=false;
     bool faireGraph=false;
     int heure = 0;
     stringstream ss;
     string nomFichierGraph;
+	regex dot(".*\\.dot$");
     while ((opt = getopt(argc,argv,"g:et:")) != EOF)
         switch(opt)
         { 
@@ -17,7 +19,13 @@ int main(int argc, char **argv){
                 ss<<optarg;
                 ss>>nomFichierGraph;
                 ss.clear();
+		if(!regex_match(nomFichierGraph,dot))
+		{
+		erreur=true;
+		cout<<"option g : argument is missing or not finishing by .dot"<<endl;
+		}else{
                 faireGraph=true;
+		}
                 break;
             case 't':
                 cout <<"t is enabled" <<endl;
@@ -50,31 +58,36 @@ int main(int argc, char **argv){
         }
     cout<<"option = "<<option<<endl;
     string nom(argv[argc-1]);
+
     if(!erreur)
     {
-			reader r =reader(nom);
+			reader *r_pt;
 			if(option == 1)
 			{
-				top10 t = top10(r,heure);
+				r_pt = new reader(nom,heure,true);
+				top10 t = top10(*r_pt);
 				cout << t;
 			}else if(option == 10)
-			{
-				top10 t = top10(r,24,"e");
+			{	
+				r_pt = new reader(nom,true,true);
+				top10 t = top10(*r_pt);
 				cout << t;
 			}else if(option == 11)
 			{
-				top10 t = top10(r,heure,"e");
+				r_pt = new reader(nom,heure,true,true);
+				top10 t = top10(*r_pt);
 				cout << t;
 			}else
 			{
-				top10 t = top10(r);
+				r_pt = new reader(nom,true);
+				top10 t = top10(*r_pt);
 				cout << t;
 			}
 			if(faireGraph)
-            {
-                cout<<"momo";
-                graphGen g =graphGen(r,nomFichierGraph);
-            }
+			    {
+				graphGen g =graphGen(*r_pt,nomFichierGraph);
+			    }
+	delete r_pt;
     }
 
     return 0;

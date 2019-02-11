@@ -63,29 +63,20 @@ class graphGen
 //----------------------------------------------------------------- PUBLIC
 
 public:
-    friend ostream & operator << (ostream & out, const graphGen & g);
+
 //----------------------------------------------------- M�thodes publiques
-    // type M�thode ( liste de param�tres );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 
 //------------------------------------------------- Surcharge d'op�rateurs
-    graphGen & operator = ( const graphGen & ungraphGen );
-    // Mode d'emploi :
+   
+    friend ostream & operator << (ostream & out, const graphGen & g);
+	 // Mode d'emploi :
     //
     // Contrat :
     //
 
 
 //-------------------------------------------- Constructeurs - destructeur
-    graphGen ( const graphGen & ungraphGen );
-    // Mode d'emploi (constructeur de copie) :
-    //
-    // Contrat :
-    //
 
     graphGen (const reader & readFile, string nomFichier);
     // Mode d'emploi :

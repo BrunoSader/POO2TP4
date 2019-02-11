@@ -51,30 +51,10 @@ ostream & operator << (ostream & out, const reader & r)
     return out;
 }
 //----------------------------------------------------- Méthodes publiques
-// type reader::Méthode ( liste de paramètres )
-// Algorithme :
-//
-//{
-//} //----- Fin de Méthode
-
 
 //------------------------------------------------- Surcharge d'opérateurs
-/*reader & reader::operator = ( const reader & unreader )
-// Algorithme :
-//
-{
-} //----- Fin de operator =
-*/
 
 //-------------------------------------------- Constructeurs - destructeur
-reader::reader ( const reader & unreader )
-// Algorithme :
-//
-{
-#ifdef MAP
-    cout << "Appel au constructeur de copie de <reader>" << endl;
-#endif
-} //----- Fin de reader (constructeur de copie)
 
 
 reader::reader (string fileName)
@@ -87,7 +67,6 @@ reader::reader (string fileName)
 	ifstream myfile;
 	myfile.open(fileName.c_str());
 	string buffer;
-    size_t found;
 	if(myfile.is_open())
 	{
 		int i = 0;
@@ -114,60 +93,351 @@ reader::reader (string fileName)
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.requete,' ');
 			getline(myfile,logBuffer.lien,' ');
-            found = logBuffer.lien.find(";jsessionid=");
-            if(found!=std::string::npos)
-            {
-                logBuffer.lien=logBuffer.lien.substr(0,found);
-            }
-            found = logBuffer.lien.find("?ticket=");
-            if(found!=std::string::npos)
-            {
-                logBuffer.lien=logBuffer.lien.substr(0,found);
-            }
-            found = logBuffer.lien.find("?id=");
-            if(found!=std::string::npos)
-            {
-                logBuffer.lien=logBuffer.lien.substr(0,found);
-            }
-            found = logBuffer.lien.find("?media=");
-            if(found!=std::string::npos)
-            {
-                logBuffer.lien=logBuffer.lien.substr(0,found);
-            }
+            
 			getline(myfile,logBuffer.protocole,'"');
-            getline(myfile,buffer,' ');
+			getline(myfile,buffer,' ');
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.lienReferer,'"');
-            if(logBuffer.lienReferer.find("google")!=std::string::npos)
-            {
-                logBuffer.lienReferer="google";
-            }else if(logBuffer.lienReferer.at(0)!= '/')
-            {
-                buffer=logBuffer.lienReferer;
-                found = buffer.find("//");
-                if(found!=std::string::npos)
-                {
-                    buffer=buffer.substr(found+2);
-                    
-                }
-                found = buffer.find("/");
-                if(found!=std::string::npos)
-                {
-                    logBuffer.lienReferer=buffer.substr(found);   
-                }
-            }
+           
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.navClient,'"');
-            
-            log.push_front(logBuffer);
+            		log.push_front(logBuffer);
 			++i;
 		}while(getline(myfile,buffer));
 	}
 } //----- Fin de reader
 
+reader::reader (string fileName,bool traitement)
+// Algorithme :
+//
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <reader>" << endl;
+#endif
+	ifstream myfile;
+	myfile.open(fileName.c_str());
+	string buffer;
+	size_t found;
+	if(myfile.is_open())
+	{
+		int i = 0;
+		
+		do
+		{
+		    	logApache logBuffer;
+			getline(myfile,logBuffer.ip,' ');
+			if(myfile.eof())
+			{
+				break;
+			}   
+			getline(myfile,logBuffer.userLogName,' ');
+			getline(myfile,logBuffer.authenticatedUser,' ');
+			getline(myfile,buffer,'[');
+			getline(myfile,logBuffer.date.jour,'/');
+			getline(myfile,logBuffer.date.mois,'/');
+			getline(myfile,logBuffer.date.annee,':');
+			getline(myfile,logBuffer.date.heure,':');
+			getline(myfile,logBuffer.date.minute,':');
+			getline(myfile,logBuffer.date.seconde,' ');
+			getline(myfile,logBuffer.date.decalageGMT,']');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.requete,' ');
+			getline(myfile,logBuffer.lien,' ');
+			found = logBuffer.lien.find(";jsessionid=");
 
+			if(found!=std::string::npos)
+			{
+			logBuffer.lien=logBuffer.lien.substr(0,found);
+			}
+			getline(myfile,logBuffer.protocole,'"');
+			getline(myfile,buffer,' ');
+			getline(myfile,logBuffer.status,' ');
+			getline(myfile,logBuffer.transQT,' ');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.lienReferer,'"');		
+
+			
+			if(logBuffer.lienReferer.at(0)!= '/')
+			{
+				buffer=logBuffer.lienReferer;
+				found = buffer.find("//");
+				if(found!=std::string::npos)
+				{
+					buffer=buffer.substr(found+2);
+				    
+				}
+				found = buffer.find("/");
+				
+				if(found!=std::string::npos)
+				{
+					logBuffer.lienReferer=buffer.substr(found);   
+				}
+			}
+
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.navClient,'"');
+	    		log.push_front(logBuffer);
+			
+			++i;
+			
+		}while(getline(myfile,buffer));
+	}
+	
+} //----- Fin de reader
+
+reader::reader(string fileName, int heure, bool extension,bool traitement)
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <reader>" << endl;
+#endif
+	ifstream myfile;
+	myfile.open(fileName.c_str());
+	regex image(".*\\.(jpg|jpeg|ics|bmp|gif|png|svg|ico|css|js)$");
+	string buffer;
+	bool ajouter=true;
+	size_t found;
+	if(myfile.is_open())
+	{
+		int i = 0;
+		
+		do
+		{
+		    	logApache logBuffer;
+			getline(myfile,logBuffer.ip,' ');
+			if(myfile.eof())
+			{
+				break;
+			}   
+			getline(myfile,logBuffer.userLogName,' ');
+			getline(myfile,logBuffer.authenticatedUser,' ');
+			getline(myfile,buffer,'[');
+			getline(myfile,logBuffer.date.jour,'/');
+			getline(myfile,logBuffer.date.mois,'/');
+			getline(myfile,logBuffer.date.annee,':');
+			getline(myfile,logBuffer.date.heure,':');
+			if(stoi(logBuffer.date.heure)!=heure)
+			{
+				ajouter=false;
+			}
+			
+			getline(myfile,logBuffer.date.minute,':');
+			getline(myfile,logBuffer.date.seconde,' ');
+			getline(myfile,logBuffer.date.decalageGMT,']');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.requete,' ');
+			getline(myfile,logBuffer.lien,' ');
+
+			found = logBuffer.lien.find(";jsessionid=");
+
+			if(found!=std::string::npos)
+			{
+			logBuffer.lien=logBuffer.lien.substr(0,found);
+			}
+			if(regex_match(logBuffer.lien,image))
+			{
+				ajouter=false;
+			}
+			
+			getline(myfile,logBuffer.protocole,'"');
+			getline(myfile,buffer,' ');
+			getline(myfile,logBuffer.status,' ');
+			getline(myfile,logBuffer.transQT,' ');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.lienReferer,'"');		
+
+			if(logBuffer.lienReferer.at(0)!= '/')
+			{
+				buffer=logBuffer.lienReferer;
+				found = buffer.find("//");
+				if(found!=std::string::npos)
+				{
+					buffer=buffer.substr(found+2);
+				    
+				}
+				found = buffer.find("/");
+				
+				if(found!=std::string::npos)
+				{
+					logBuffer.lienReferer=buffer.substr(found);   
+				}
+			}
+
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.navClient,'"');
+			if(ajouter)
+			{
+	    		log.push_front(logBuffer);
+			}
+			++i;
+			ajouter=true;
+		}while(getline(myfile,buffer));
+	}
+}
+
+reader::reader(string fileName, int heure,bool traitement)
+{
+#ifdef MAP
+    cout << "Appel au constructeur de <reader>" << endl;
+#endif
+	ifstream myfile;
+	myfile.open(fileName.c_str());
+	string buffer;
+	bool ajouter=true;
+	size_t found;
+	if(myfile.is_open())
+	{
+		int i = 0;
+		
+		do
+		{
+		    	logApache logBuffer;
+			getline(myfile,logBuffer.ip,' ');
+			if(myfile.eof())
+			{
+				break;
+			}   
+			getline(myfile,logBuffer.userLogName,' ');
+			getline(myfile,logBuffer.authenticatedUser,' ');
+			getline(myfile,buffer,'[');
+			getline(myfile,logBuffer.date.jour,'/');
+			getline(myfile,logBuffer.date.mois,'/');
+			getline(myfile,logBuffer.date.annee,':');
+			getline(myfile,logBuffer.date.heure,':');
+			if(stoi(logBuffer.date.heure)!=heure)
+			{
+				ajouter=false;
+			}
+			getline(myfile,logBuffer.date.minute,':');
+			getline(myfile,logBuffer.date.seconde,' ');
+			getline(myfile,logBuffer.date.decalageGMT,']');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.requete,' ');
+			getline(myfile,logBuffer.lien,' ');
+			found = logBuffer.lien.find(";jsessionid=");
+			if(found!=std::string::npos)
+			{
+			logBuffer.lien=logBuffer.lien.substr(0,found);
+			}
+			getline(myfile,logBuffer.protocole,'"');
+			getline(myfile,buffer,' ');
+			getline(myfile,logBuffer.status,' ');
+			getline(myfile,logBuffer.transQT,' ');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.lienReferer,'"');		
+
+			
+			if(logBuffer.lienReferer.at(0)!= '/')
+			{
+				buffer=logBuffer.lienReferer;
+				found = buffer.find("//");
+				if(found!=std::string::npos)
+				{
+					buffer=buffer.substr(found+2);
+				    
+				}
+				found = buffer.find("/");
+				
+				if(found!=std::string::npos)
+				{
+					logBuffer.lienReferer=buffer.substr(found);   
+				}
+			}
+
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.navClient,'"');
+			if(ajouter)
+			{
+	    		log.push_front(logBuffer);
+			}
+			++i;
+			ajouter=true;
+		}while(getline(myfile,buffer));
+	}
+}
+
+reader::reader(string fileName,bool extension,bool traitement)
+{
+cout<<"toto"<<endl;
+#ifdef MAP
+    cout << "Appel au constructeur de <reader>" << endl;
+#endif
+	ifstream myfile;
+	myfile.open(fileName.c_str());
+	regex image(".*\\.(jpg|jpeg|ics|bmp|gif|png|svg|ico|css|js)$");
+	string buffer;
+	bool ajouter=true;
+	size_t found;
+	if(myfile.is_open())
+	{
+		int i = 0;
+		
+		do
+		{
+		    	logApache logBuffer;
+			getline(myfile,logBuffer.ip,' ');
+			if(myfile.eof())
+			{
+				break;
+			}   
+			getline(myfile,logBuffer.userLogName,' ');
+			getline(myfile,logBuffer.authenticatedUser,' ');
+			getline(myfile,buffer,'[');
+			getline(myfile,logBuffer.date.jour,'/');
+			getline(myfile,logBuffer.date.mois,'/');
+			getline(myfile,logBuffer.date.annee,':');
+			getline(myfile,logBuffer.date.heure,':');
+			getline(myfile,logBuffer.date.minute,':');
+			getline(myfile,logBuffer.date.seconde,' ');
+			getline(myfile,logBuffer.date.decalageGMT,']');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.requete,' ');
+			getline(myfile,logBuffer.lien,' ');
+			if(regex_match(logBuffer.lien,image))
+			{
+				ajouter=false;
+			}
+			found = logBuffer.lien.find(";jsessionid=");
+			if(found!=std::string::npos)
+			{
+			logBuffer.lien=logBuffer.lien.substr(0,found);
+			}
+			getline(myfile,logBuffer.protocole,'"');
+			getline(myfile,buffer,' ');
+			getline(myfile,logBuffer.status,' ');
+			getline(myfile,logBuffer.transQT,' ');
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.lienReferer,'"');	
+			
+			if(logBuffer.lienReferer.at(0)!= '/')
+			{
+				buffer=logBuffer.lienReferer;
+				found = buffer.find("//");
+				if(found!=std::string::npos)
+				{
+					buffer=buffer.substr(found+2);
+				    
+				}
+				found = buffer.find("/");
+				
+				if(found!=std::string::npos)
+				{
+					logBuffer.lienReferer=buffer.substr(found);   
+				}
+			}
+
+			getline(myfile,buffer,'"');
+			getline(myfile,logBuffer.navClient,'"');
+			if(ajouter==true)
+			{
+	    		log.push_front(logBuffer);
+			}
+			++i;
+			ajouter=true;
+		}while(getline(myfile,buffer));
+	}
+}
 reader::~reader ( )
 // Algorithme :
 //
