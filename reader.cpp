@@ -47,7 +47,6 @@ ostream & operator << (ostream & out, const reader & r)
     out<<"lienReferer = "<<it->lienReferer<<endl;
     out<<"navClient = "<<it->navClient<<endl;
     }
-    
     return out;
 }
 //----------------------------------------------------- Méthodes publiques
@@ -59,7 +58,9 @@ ostream & operator << (ostream & out, const reader & r)
 
 reader::reader (string fileName)
 // Algorithme :
-//
+// Lit le contenu du fichier .log et le decortique afin qu'il soit
+// plus facile a l'utilisation.
+// Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 {
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
@@ -70,7 +71,7 @@ reader::reader (string fileName)
 	if(myfile.is_open())
 	{
 		int i = 0;
-		
+		errorFlag = false;
 		do
 		{
             logApache logBuffer;
@@ -111,7 +112,10 @@ reader::reader (string fileName)
 
 reader::reader (string fileName,bool traitement)
 // Algorithme :
-//
+// Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
+// (en supprimant les informations sur les cookies)
+// et le decortique afin qu'il soit plus facile a l'utilisation.
+// Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 {
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
@@ -123,7 +127,7 @@ reader::reader (string fileName,bool traitement)
 	if(myfile.is_open())
 	{
 		int i = 0;
-		
+		errorFlag = false;
 		do
 		{
 		    	logApache logBuffer;
@@ -181,7 +185,7 @@ reader::reader (string fileName,bool traitement)
 	    		log.push_front(logBuffer);
 			
 			++i;
-			
+			errorFlag = false;
 		}while(getline(myfile,buffer));
 	}
 	
@@ -189,6 +193,12 @@ reader::reader (string fileName,bool traitement)
 
 reader::reader(string fileName, int heure, bool extension,bool traitement)
 {
+// Algorithme :
+// Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
+// (en supprimant les informations sur les cookies),supprime les liens qui
+// n'ont pas ete visites entre [heure,heure+1] et les fichiers photos, css ou js,
+// et le decortique afin qu'il soit plus facile a l'utilisation.
+// Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
 #endif
@@ -201,7 +211,7 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 	if(myfile.is_open())
 	{
 		int i = 0;
-		
+		errorFlag = false;
 		do
 		{
 		    	logApache logBuffer;
@@ -278,6 +288,12 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 
 reader::reader(string fileName, int heure,bool traitement)
 {
+// Algorithme :
+// Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
+// (en supprimant les informations sur les cookies),supprime les liens qui
+// n'ont pas ete visites entre [heure,heure+1]
+// et le decortique afin qu'il soit plus facile a l'utilisation.
+// Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
 #endif
@@ -289,7 +305,7 @@ reader::reader(string fileName, int heure,bool traitement)
 	if(myfile.is_open())
 	{
 		int i = 0;
-		
+		errorFlag = false;
 		do
 		{
 		    	logApache logBuffer;
@@ -359,7 +375,11 @@ reader::reader(string fileName, int heure,bool traitement)
 
 reader::reader(string fileName,bool extension,bool traitement)
 {
-cout<<"toto"<<endl;
+// Algorithme :
+// Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
+// (en supprimant les informations sur les cookies),supprime les fichiers photos, css ou js,
+// et le decortique afin qu'il soit plus facile a l'utilisation.
+// Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
 #endif
@@ -372,7 +392,7 @@ cout<<"toto"<<endl;
 	if(myfile.is_open())
 	{
 		int i = 0;
-		
+		errorFlag = false;
 		do
 		{
 		    	logApache logBuffer;

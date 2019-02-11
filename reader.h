@@ -55,6 +55,7 @@ class reader
 //----------------------------------------------------------------- PUBLIC
 
 public:
+bool errorFlag = true;
 friend class top10;
 friend class graphGen;
 //----------------------------------------------------- Méthodes publiques
@@ -98,7 +99,6 @@ private:
 protected:
 //----------------------------------------------------- Attributs protégés
 forward_list<logApache> log;
-bool erreurFlag = true;
 private:
 //------------------------------------------------------- Attributs privés
 

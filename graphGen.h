@@ -13,41 +13,46 @@
 #include <iostream>
 #include <unordered_map>
 #include "reader.h"
+#include <iostream>
+#include <unordered_map>
 using namespace std;
-//------------------------------------------------------------- Constantes
-
-//------------------------------------------------------------------ Types
 
 //------------------------------------------------------------------------
 // R�le de la classe <graphGen>
-//
-//
+// La classe graphGen permet de creer un fichier .dot afin de le generer
+// sous graphe grace a GraphViz. Elle contient deux unordered map, graphMap
+// qui gere le nombre de hits fait entre un lien et son referer grace a une
+// cle Links (une structure qui contient chaqu'un des liens) et nodeMap
+// qui gere la creation des nodes (la numerotation et leurs relations). 
 //------------------------------------------------------------------------
-#include <iostream>
-#include <unordered_map>
 
 template<typename T1, typename T2>
 struct Links
+// R�le de la structure <Links>
+// Structure Links afin de creer une fonction de hashage qui travaille sur
+// une cle compose de 2 strings.
 {
 	T1 lien;
 	T2 referer;
 
-	// constructor
 	Links(T1 lien, T2 referer)
 	{
 		this->lien = lien;
 		this->referer = referer;
 	}
 
-	// operator== is required to compare keys in case of hash collision
+	// operator== est requis pour comparer des cles en cas de collision
 	bool operator==(const Links &link) const
 	{
 		return lien == link.lien && referer == link.referer;
 	}
 };
 
-// specialized hash function for unordered_map keys
 struct hash_fn
+// Algorithme :
+// Fonction de hashage utilise pour la graphMap qui considere la structure
+// Links comme cle. Appel a la fonction de hashage de base (afin d'avoir
+// le moins de collision) pour le lien et le referer et somme les deux 
 {
 	template <class T1, class T2>
 	size_t operator() (const Links<T1, T2> &link) const
@@ -70,25 +75,19 @@ public:
 //------------------------------------------------- Surcharge d'op�rateurs
    
     friend ostream & operator << (ostream & out, const graphGen & g);
-	 // Mode d'emploi :
-    //
-    // Contrat :
-    //
-
+	// Mode d'emploi :
+	// Prend en parametre un flux de sortie et un graphGen 
+	// afin de sortir sur le flux les composants du graphGen.
+	// Contrat : /
 
 //-------------------------------------------- Constructeurs - destructeur
 
     graphGen (const reader & readFile, string nomFichier);
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
+	// Mode d'emploi :
+	// Creation de la graphMap et de la nodeMap afin de creer le fichier .dot
+	// Contrat : /
 
     virtual ~graphGen ( );
-    // Mode d'emploi :
-    //
-    // Contrat :
-    //
 
 //------------------------------------------------------------------ PRIVE
 

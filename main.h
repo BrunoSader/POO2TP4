@@ -10,9 +10,14 @@
 #if ! defined ( main_H )
 #define main_H
 
+//---------------------------------------------------------- 
 // Rôle du module <main>
-// Représente seulement la classe permettant d'appeler l'interface
-// créée dans la classe Interface afin d'afficher un visuel pour l'utilisateur
+// Lecture de la ligne de commande afin de voir
+// quelles options ont ete choisies par l'utilisateur
+// et d'en prendre compte lors de l'execution du programme.
+// Gere aussi les erreurs duent a la mauvaise semantique
+// des options lors de l'appel a l'execution.
+//----------------------------------------------------------
 
 //--------------------------------------------------- Interfaces utilisées
 #include <iostream>

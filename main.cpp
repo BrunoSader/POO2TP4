@@ -1,7 +1,7 @@
 #include "main.h"
 
-int main(int argc, char **argv){
-	
+int main(int argc, char **argv)
+{	
     int opt;
     int option=0;
 	
@@ -22,32 +22,31 @@ int main(int argc, char **argv){
 		if(!regex_match(nomFichierGraph,dot))
 		{
 		erreur=true;
-		cout<<"option g : argument is missing or not finishing by .dot"<<endl;
+		cerr<<"option g : argument is missing or not finishing by .dot"<<endl;
 		}else{
                 faireGraph=true;
 		}
                 break;
             case 't':
-                cout <<"t is enabled" <<endl;
                 ss<<optarg;
                 ss>>heure;
                 if(ss.eof()==0)
                 {
-                    cerr<<"hour argument is not valid"<<endl;
+                    cerr<<"option t : hour argument is not valid"<<endl;
                     erreur=true;
                     break;
                 }else if(heure<0 || heure>23)
                 {
-                    cerr<<"the hour should be a number between 0 and 23"<<endl;
+                    cerr<<"option t : the hour should be a number between 0 and 23"<<endl;
                     erreur=true;
                     break;
                 }else
                 {
                     option+=1;
+			ss.clear();
                     break;
                 }
             case 'e':
-                cout << "e is enabled" <<endl;
                 option+=10;
                 break;
             case '?':
@@ -61,32 +60,52 @@ int main(int argc, char **argv){
 
     if(!erreur)
     {
-			reader *r_pt;
-			if(option == 1)
+		reader *r_pt;
+		if(option == 1)
+		{
+			r_pt = new reader(nom,heure,true);
+			if (r_pt->errorFlag)
 			{
-				r_pt = new reader(nom,heure,true);
-				top10 t = top10(*r_pt);
-				cout << t;
-			}else if(option == 10)
-			{	
-				r_pt = new reader(nom,true,true);
-				top10 t = top10(*r_pt);
-				cout << t;
-			}else if(option == 11)
-			{
-				r_pt = new reader(nom,heure,true,true);
-				top10 t = top10(*r_pt);
-				cout << t;
-			}else
-			{
-				r_pt = new reader(nom,true);
-				top10 t = top10(*r_pt);
-				cout << t;
+				cerr << "The file could not be opened" << endl;
+			}else{
+			top10 t = top10(*r_pt);
+			cout << t;
 			}
-			if(faireGraph)
-			    {
-				graphGen g =graphGen(*r_pt,nomFichierGraph);
-			    }
+		}else if(option == 10)
+		{	
+			r_pt = new reader(nom,true,true);
+			if (r_pt->errorFlag)
+			{
+				cerr << "The file could not be opened" << endl;
+			}else{
+			top10 t = top10(*r_pt);
+			cout << t;
+			}
+		}else if(option == 11)
+		{	
+			r_pt = new reader(nom,heure,true,true);
+			if (r_pt->errorFlag)
+			{
+				cerr << "The file could not be opened" << endl;
+			}else{
+			top10 t = top10(*r_pt);
+			cout << t;
+			}
+		}else
+		{
+			r_pt = new reader(nom,true);
+			if (r_pt->errorFlag)
+			{
+				cerr << "The file could not be opened" << endl;
+			}else{
+			top10 t = top10(*r_pt);
+			cout << t;
+			}
+		}
+		if(faireGraph && !(r_pt->errorFlag))
+		{
+		graphGen g =graphGen(*r_pt,nomFichierGraph);
+		}
 	delete r_pt;
     }
 
