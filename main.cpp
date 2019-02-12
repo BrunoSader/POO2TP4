@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     int heure = 0;
     stringstream ss;
     string nomFichierGraph;
-	regex dot(".*\\.dot$");
+		regex dot(".*\\.dot$");
     while ((opt = getopt(argc,argv,"g:et:")) != EOF)
         switch(opt)
         {
@@ -55,12 +55,13 @@ int main(int argc, char **argv)
             default:
                 cout<<"d"<<endl;
         }
-    cout<<"option = "<<option<<endl;
     string nom(argv[argc-1]);
-
-    if(!erreur)
+		if (argc == 1)
+		{
+			cerr << "Not enough input arguments, might be missing .log file" <<endl;
+		} else if(!erreur)
     {
-		reader *r_pt;
+			reader *r_pt;
 		if(option == 1)
 		{
 			r_pt = new reader(nom,heure,true);
@@ -68,8 +69,8 @@ int main(int argc, char **argv)
 			{
 				cerr << "The file could not be opened" << endl;
 			}else{
-			top10 t = top10(*r_pt);
-			cout << t;
+				top10 t = top10(*r_pt);
+				cout << t;
 			}
 		}else if(option == 10)
 		{
@@ -78,8 +79,8 @@ int main(int argc, char **argv)
 			{
 				cerr << "The file could not be opened" << endl;
 			}else{
-			top10 t = top10(*r_pt);
-			cout << t;
+				top10 t = top10(*r_pt);
+				cout << t;
 			}
 		}else if(option == 11)
 		{
@@ -88,8 +89,8 @@ int main(int argc, char **argv)
 			{
 				cerr << "The file could not be opened" << endl;
 			}else{
-			top10 t = top10(*r_pt);
-			cout << t;
+				top10 t = top10(*r_pt);
+				cout << t;
 			}
 		}else
 		{
@@ -98,15 +99,15 @@ int main(int argc, char **argv)
 			{
 				cerr << "The file could not be opened" << endl;
 			}else{
-			top10 t = top10(*r_pt);
-			cout << t;
+				top10 t = top10(*r_pt);
+				cout << t;
 			}
 		}
 		if(faireGraph && !(r_pt->errorFlag))
 		{
-		graphGen g =graphGen(*r_pt,nomFichierGraph);
+			graphGen g =graphGen(*r_pt,nomFichierGraph);
 		}
-	delete r_pt;
+			delete r_pt;
     }
 
     return 0;
