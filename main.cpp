@@ -11,6 +11,7 @@ int main(int argc, char **argv)
     int heure = 0;
     stringstream ss;
     string nomFichierGraph;
+		string nom(argv[argc-1]);
 		regex dot(".*\\.dot$");
     while ((opt = getopt(argc,argv,"g:et:")) != EOF)
         switch(opt)
@@ -55,7 +56,7 @@ int main(int argc, char **argv)
             default:
                 cout<<"d"<<endl;
         }
-    string nom(argv[argc-1]);
+
 		if (argc == 1)
 		{
 			cerr << "Not enough input arguments, might be missing .log file" <<endl;
