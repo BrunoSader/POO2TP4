@@ -1,8 +1,9 @@
 /*************************************************************************
-                           reader  -  description
-                             -------------------
-    début                : ${date}
-    copyright            : (C) ${year} par ${user}
+					  reader  -  description
+				 -------------------
+	début        : 10/12/2018
+	copyright    : (C) 2018 par Bruno SADER, David HAMIDOVIC
+	e-mail       : bruno.sader@insa-lyon.fr david.hamidovic@insa-lyon.fr
 *************************************************************************/
 
 //---------- Réalisation de la classe <reader> (fichier reader.cpp ) --
@@ -12,21 +13,22 @@
 //-------------------------------------------------------- Include système
 using namespace std;
 #include <iostream>
-
 //------------------------------------------------------ Include personnel
 #include "reader.h"
-
 //------------------------------------------------------------- Constantes
 
 //---------------------------------------------------- Variables de classe
 
 //----------------------------------------------------------- Types privés
 
-
 //----------------------------------------------------------------- PUBLIC
+
 //-------------------------------------------------------- Fonctions amies
 ostream & operator << (ostream & out, const reader & r)
 {
+// Algorithme :
+// On affiche grace a un iterator, qui parcours la list log, toutes les donnees
+// contenues dans le reader (entre en parametre)
     for(forward_list<logApache>::const_iterator it = r.log.cbegin(); it != r.log.cend(); ++it)
     {
     out<<"ip = "<<it->ip<<endl;
@@ -59,7 +61,7 @@ ostream & operator << (ostream & out, const reader & r)
 reader::reader (string fileName)
 // Algorithme :
 // Lit le contenu du fichier .log et le decortique afin qu'il soit
-// plus facile a l'utilisation.
+// plus facile a l'utilisation grace à un ifstream qui parcours le fichier.
 // Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 {
 #ifdef MAP
@@ -75,12 +77,12 @@ reader::reader (string fileName)
 		do
 		{
             logApache logBuffer;
-			
+
 			getline(myfile,logBuffer.ip,' ');
             if(myfile.eof())
             {
                 break;
-            }   
+            }
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -94,14 +96,14 @@ reader::reader (string fileName)
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.requete,' ');
 			getline(myfile,logBuffer.lien,' ');
-            
+
 			getline(myfile,logBuffer.protocole,'"');
 			getline(myfile,buffer,' ');
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.lienReferer,'"');
-           
+
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.navClient,'"');
             		log.push_front(logBuffer);
@@ -114,7 +116,8 @@ reader::reader (string fileName,bool traitement)
 // Algorithme :
 // Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
 // (en supprimant les informations sur les cookies)
-// et le decortique afin qu'il soit plus facile a l'utilisation.
+// et le decortique afin qu'il soit plus facile a l'utilisation grace
+// à un ifstream qui parcours le fichier.
 // Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 {
 #ifdef MAP
@@ -135,7 +138,7 @@ reader::reader (string fileName,bool traitement)
 			if(myfile.eof())
 			{
 				break;
-			}   
+			}
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -160,9 +163,9 @@ reader::reader (string fileName,bool traitement)
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
-			getline(myfile,logBuffer.lienReferer,'"');		
+			getline(myfile,logBuffer.lienReferer,'"');
 
-			
+
 			if(logBuffer.lienReferer.at(0)!= '/')
 			{
 				buffer=logBuffer.lienReferer;
@@ -170,34 +173,35 @@ reader::reader (string fileName,bool traitement)
 				if(found!=std::string::npos)
 				{
 					buffer=buffer.substr(found+2);
-				    
+
 				}
 				found = buffer.find("/");
-				
+
 				if(found!=std::string::npos)
 				{
-					logBuffer.lienReferer=buffer.substr(found);   
+					logBuffer.lienReferer=buffer.substr(found);
 				}
 			}
 
 			getline(myfile,buffer,'"');
 			getline(myfile,logBuffer.navClient,'"');
 	    		log.push_front(logBuffer);
-			
+
 			++i;
 			errorFlag = false;
 		}while(getline(myfile,buffer));
 	}
-	
+
 } //----- Fin de reader
 
 reader::reader(string fileName, int heure, bool extension,bool traitement)
 {
 // Algorithme :
 // Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
-// (en supprimant les informations sur les cookies),supprime les liens qui
+// (en supprimant les informations sur les cookies), supprime les liens qui
 // n'ont pas ete visites entre [heure,heure+1] et les fichiers photos, css ou js,
-// et le decortique afin qu'il soit plus facile a l'utilisation.
+// et le decortique afin qu'il soit plus facile a l'utilisation grace
+// à un ifstream qui parcours le fichier.
 // Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
@@ -219,7 +223,7 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 			if(myfile.eof())
 			{
 				break;
-			}   
+			}
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -231,7 +235,7 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 			{
 				ajouter=false;
 			}
-			
+
 			getline(myfile,logBuffer.date.minute,':');
 			getline(myfile,logBuffer.date.seconde,' ');
 			getline(myfile,logBuffer.date.decalageGMT,']');
@@ -249,13 +253,13 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 			{
 				ajouter=false;
 			}
-			
+
 			getline(myfile,logBuffer.protocole,'"');
 			getline(myfile,buffer,' ');
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
-			getline(myfile,logBuffer.lienReferer,'"');		
+			getline(myfile,logBuffer.lienReferer,'"');
 
 			if(logBuffer.lienReferer.at(0)!= '/')
 			{
@@ -264,13 +268,13 @@ reader::reader(string fileName, int heure, bool extension,bool traitement)
 				if(found!=std::string::npos)
 				{
 					buffer=buffer.substr(found+2);
-				    
+
 				}
 				found = buffer.find("/");
-				
+
 				if(found!=std::string::npos)
 				{
-					logBuffer.lienReferer=buffer.substr(found);   
+					logBuffer.lienReferer=buffer.substr(found);
 				}
 			}
 
@@ -292,7 +296,8 @@ reader::reader(string fileName, int heure,bool traitement)
 // Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
 // (en supprimant les informations sur les cookies),supprime les liens qui
 // n'ont pas ete visites entre [heure,heure+1]
-// et le decortique afin qu'il soit plus facile a l'utilisation.
+// et le decortique afin qu'il soit plus facile a l'utilisation grace
+// à un ifstream qui parcours le fichier.
 // Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
@@ -313,7 +318,7 @@ reader::reader(string fileName, int heure,bool traitement)
 			if(myfile.eof())
 			{
 				break;
-			}   
+			}
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -341,9 +346,9 @@ reader::reader(string fileName, int heure,bool traitement)
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
-			getline(myfile,logBuffer.lienReferer,'"');		
+			getline(myfile,logBuffer.lienReferer,'"');
 
-			
+
 			if(logBuffer.lienReferer.at(0)!= '/')
 			{
 				buffer=logBuffer.lienReferer;
@@ -351,13 +356,13 @@ reader::reader(string fileName, int heure,bool traitement)
 				if(found!=std::string::npos)
 				{
 					buffer=buffer.substr(found+2);
-				    
+
 				}
 				found = buffer.find("/");
-				
+
 				if(found!=std::string::npos)
 				{
-					logBuffer.lienReferer=buffer.substr(found);   
+					logBuffer.lienReferer=buffer.substr(found);
 				}
 			}
 
@@ -377,8 +382,9 @@ reader::reader(string fileName,bool extension,bool traitement)
 {
 // Algorithme :
 // Lit le contenu du fichier .log, le traite afin de le rendre plus lisible
-// (en supprimant les informations sur les cookies),supprime les fichiers photos, css ou js,
-// et le decortique afin qu'il soit plus facile a l'utilisation.
+// (en supprimant les informations sur les cookies),supprime les fichiers
+// photos, css ou js, et le decortique afin qu'il soit plus facile a
+// l'utilisation grace à un ifstream qui parcours le fichier.
 // Renvoi une erreur si le fichier souhaite ne peut pas etre lu (ouvert)
 #ifdef MAP
     cout << "Appel au constructeur de <reader>" << endl;
@@ -400,7 +406,7 @@ reader::reader(string fileName,bool extension,bool traitement)
 			if(myfile.eof())
 			{
 				break;
-			}   
+			}
 			getline(myfile,logBuffer.userLogName,' ');
 			getline(myfile,logBuffer.authenticatedUser,' ');
 			getline(myfile,buffer,'[');
@@ -428,8 +434,8 @@ reader::reader(string fileName,bool extension,bool traitement)
 			getline(myfile,logBuffer.status,' ');
 			getline(myfile,logBuffer.transQT,' ');
 			getline(myfile,buffer,'"');
-			getline(myfile,logBuffer.lienReferer,'"');	
-			
+			getline(myfile,logBuffer.lienReferer,'"');
+
 			if(logBuffer.lienReferer.at(0)!= '/')
 			{
 				buffer=logBuffer.lienReferer;
@@ -437,13 +443,13 @@ reader::reader(string fileName,bool extension,bool traitement)
 				if(found!=std::string::npos)
 				{
 					buffer=buffer.substr(found+2);
-				    
+
 				}
 				found = buffer.find("/");
-				
+
 				if(found!=std::string::npos)
 				{
-					logBuffer.lienReferer=buffer.substr(found);   
+					logBuffer.lienReferer=buffer.substr(found);
 				}
 			}
 

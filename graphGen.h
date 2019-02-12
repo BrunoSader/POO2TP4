@@ -1,8 +1,9 @@
 /*************************************************************************
-                           graphGen  -  description
-                             -------------------
-    d�but                : ${date}
-    copyright            : (C) ${year} par ${user}
+					  graphGen  -  description
+				 -------------------
+	début        : 10/12/2018
+	copyright    : (C) 2018 par Bruno SADER, David HAMIDOVIC
+	e-mail       : bruno.sader@insa-lyon.fr david.hamidovic@insa-lyon.fr
 *************************************************************************/
 
 //---------- Interface de la classe <graphGen> (fichier graphGen.cpp) ------
@@ -23,7 +24,7 @@ using namespace std;
 // sous graphe grace a GraphViz. Elle contient deux unordered map, graphMap
 // qui gere le nombre de hits fait entre un lien et son referer grace a une
 // cle Links (une structure qui contient chaqu'un des liens) et nodeMap
-// qui gere la creation des nodes (la numerotation et leurs relations). 
+// qui gere la creation des nodes (la numerotation et leurs relations).
 //------------------------------------------------------------------------
 
 template<typename T1, typename T2>
@@ -52,7 +53,7 @@ struct hash_fn
 // Algorithme :
 // Fonction de hashage utilise pour la graphMap qui considere la structure
 // Links comme cle. Appel a la fonction de hashage de base (afin d'avoir
-// le moins de collision) pour le lien et le referer et somme les deux 
+// le moins de collision) pour le lien et le referer et somme les deux
 {
 	template <class T1, class T2>
 	size_t operator() (const Links<T1, T2> &link) const
@@ -73,21 +74,21 @@ public:
 
 
 //------------------------------------------------- Surcharge d'op�rateurs
-   
-    friend ostream & operator << (ostream & out, const graphGen & g);
+
+	friend ostream & operator << (ostream & out, const graphGen & g);
 	// Mode d'emploi :
-	// Prend en parametre un flux de sortie et un graphGen 
+	// Prend en parametre un flux de sortie et un graphGen
 	// afin de sortir sur le flux les composants du graphGen.
 	// Contrat : /
 
 //-------------------------------------------- Constructeurs - destructeur
 
-    graphGen (const reader & readFile, string nomFichier);
+  graphGen (const reader & readFile, string nomFichier);
 	// Mode d'emploi :
 	// Creation de la graphMap et de la nodeMap afin de creer le fichier .dot
 	// Contrat : /
 
-    virtual ~graphGen ( );
+  virtual ~graphGen ( );
 
 //------------------------------------------------------------------ PRIVE
 
@@ -99,8 +100,8 @@ private:
 
 protected:
 //----------------------------------------------------- Attributs prot�g�s
-unordered_map<Links<string,string>, int, hash_fn> graphMap;
-unordered_map<string,int> nodeMap;
+	unordered_map<Links<string,string>, int, hash_fn> graphMap;
+	unordered_map<string,int> nodeMap;
 private:
 //------------------------------------------------------- Attributs priv�s
 

@@ -1,8 +1,9 @@
 /*************************************************************************
-                           graphGen  -  description
-                             -------------------
-    d�but                : ${date}
-    copyright            : (C) ${year} par ${user}
+					  graphGen  -  description
+				 -------------------
+	début        : 10/12/2018
+	copyright    : (C) 2018 par Bruno SADER, David HAMIDOVIC
+	e-mail       : bruno.sader@insa-lyon.fr david.hamidovic@insa-lyon.fr
 *************************************************************************/
 
 //---------- R�alisation de la classe <graphGen> (fichier graphGen.h) --
@@ -26,7 +27,8 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 ostream & operator << (ostream & out, const graphGen & g)
 // Algorithme :
-// On affiche grace a un iterator, qui parcours la graphMap, le lien, le lien de referer et le nb de hits
+// On affiche grace a un iterator, qui parcours la graphMap, le lien,
+// le lien de referer et le nb de hits
 {
     for(unordered_map<Links<string,string>, int, hash_fn> ::const_iterator it = g.graphMap.cbegin(); it != g.graphMap.cend(); ++it)
     {
@@ -41,11 +43,11 @@ ostream & operator << (ostream & out, const graphGen & g)
 
 graphGen::graphGen (const reader & r, string nomFichier)
 // Algorithme :
-// Parcours du reader et verification : 
-// - De la possibilte ou pas d'inserer dans la graphMap 
+// Parcours du reader et verification :
+// - De la possibilte ou pas d'inserer dans la graphMap
 // la pair cle [lien,lienReferer] si elle n'y est pas deja
 // sinon incrementation du nombre d'occurence (le nombre de hits).
-// - De la possibilte ou pas d'inserer et numeroter le lien et lienReferer 
+// - De la possibilte ou pas d'inserer et numeroter le lien et lienReferer
 // en tant que nodes (independants) dans la nodeMap s'ils n'y sont pas deja sinon les nodes sont numerotes
 // Creation du fichier .dot grace au nomFichier et l'ecriture grace aux maps.
 {

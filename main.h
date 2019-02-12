@@ -10,7 +10,7 @@
 #if ! defined ( main_H )
 #define main_H
 
-//---------------------------------------------------------- 
+//----------------------------------------------------------
 // Rôle du module <main>
 // Lecture de la ligne de commande afin de voir
 // quelles options ont ete choisies par l'utilisateur
